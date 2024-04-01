@@ -2,41 +2,53 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-public class Boj2581 {
+public class Boj2581{
 
 	public static void main(String[] args) throws Exception {
-
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		int[] inputArray = Arrays.stream(br.readLine().split(" "))
-								 .mapToInt(Integer::parseInt)
-								 .sorted().toArray();
 
-		sol(n, inputArray);
+		int n = Integer.parseInt(br.readLine());
+		int m = Integer.parseInt(br.readLine());
+		sol(n, m);
+
 	}
 
-	private static void sol(int n, int[] inputs) {
+	private static void sol(int n, int m) {
+		int ans = -1;
+		int sum = 0;
 
-		int[] ans = new int[10000];
-		int ansIndex = 0;
-
-		for (int i = 1; i <= inputs[0]; i++) {
-			if (inputs[0] % i == 0) {
-				ans[ansIndex++] = i;
-			}
+		if (m == 1) {
+			System.out.println(ans);
+			return;
 		}
 
-		for (int i = 1; i < n; i++) {
-			for (int j = 0; j < ansIndex; j++) {
-				if (inputs[i] % ans[j] != 0) {
-					ans[j] = -1;
+		for (int a = n; a <= m; a++) {
+			if (isPrimary(a)) {
+				if (ans == -1) {
+					ans = a;
 				}
+				sum += a;
 			}
 		}
-		for (int i = 0; i < ansIndex; i++) {
-			if (ans[i] != 0 && ans[i] != -1) {
-				System.out.println(ans[i]);
+
+		if(sum != 0){
+			System.out.println(sum);
+		}
+		System.out.println(ans);
+	}
+
+	private static boolean isPrimary(int number) {
+		if(number == 1){
+			return false;
+		}
+		if(number == 2){
+			return true;
+		}
+		for (int i = 2; i < number / 2 + 1; i++) {
+			if (number % i == 0) {
+				return false;
 			}
 		}
+		return true;
 	}
 }
